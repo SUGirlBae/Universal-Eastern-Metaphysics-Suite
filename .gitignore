@@ -1,0 +1,30 @@
+# Developer Test Suites & Internal Benchmarks (Kept locally only)
+tests/
+.agents/
+tools/ziwei_regression_generator.py
+tools/ziwei_vector_generator.py
+
+# Archive & Distribution files
+*.zip
+*.tar.gz
+*.rar
+*.7z
+AIAgent.zip
+
+# Large Generated FTS5 Canon DB (built dynamically with `python engine/cli.py --canon-index`)
+data/canon_index.db
+
+# Python & Environment
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+venv/
+.env
+
+# Logs & temp
+*.log
+scratch/
+
+data/*.db

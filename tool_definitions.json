@@ -1,0 +1,779 @@
+{
+  "openai_tools": [
+    {
+      "type": "function",
+      "function": {
+        "name": "metaphysics_agent_query",
+        "description": "Fetch high-density structured ancient Eastern metaphysics data across 6 systems: I Ching (Mai Hoa & Luc Hao), Bazi (Four Pillars), Tu Vi (Universal Multi-School 110+ Stars), Ha Lac, Qi Men Dun Jia, and Tung Shing Almanac for automated AI reasoning.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "datetime_str": {
+              "type": "string",
+              "description": "DateTime string in DD/MM/YYYY HH:MM format, or empty for NTP atomic now."
+            },
+            "question": {
+              "type": "string",
+              "description": "The specific query, decision, or problem the user needs answered."
+            },
+            "gender": {
+              "type": "integer",
+              "enum": [
+                0,
+                1
+              ],
+              "description": "1 for male, 0 for female. Default is 1."
+            },
+            "systems": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "iching",
+                  "bazi",
+                  "tuvi",
+                  "halac",
+                  "kymon",
+                  "timing",
+                  "annual",
+                  "health",
+                  "fengshui"
+                ]
+              },
+              "description": "Filter specific systems to retrieve. Omit to query all."
+            },
+            "school": {
+              "type": "string",
+              "enum": [
+                "standard",
+                "kham_thien",
+                "nam_phai",
+                "trung_chau",
+                "luong_phai",
+                "bac_phai",
+                "hybrid"
+              ],
+              "description": "Ziwei school configuration."
+            },
+            "astrolabe_type": {
+              "type": "string",
+              "enum": [
+                "thien_ban",
+                "dia_ban",
+                "nhan_ban"
+              ],
+              "description": "Astrolabe alignment mode."
+            },
+            "cuc_override": {
+              "type": "integer",
+              "enum": [
+                2,
+                3,
+                4,
+                5,
+                6
+              ],
+              "description": "Custom Cuc number override (2=Thủy, 3=Mộc, 4=Kim, 5=Thổ, 6=Hỏa)."
+            }
+          },
+          "required": [
+            "question"
+          ]
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "calculate_universal_tu_vi",
+        "description": "Calculate Universal Multi-School Zi Wei Dou Shu Chart with 110+ stars, Dac/Ham brightness, 12 Palaces Flying Stars matrix, Self/Inward Transformations, Phuong Vien Loc Ky map, and Kham Thien routes.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "datetime_str": {
+              "type": "string",
+              "description": "Birth datetime (DD/MM/YYYY HH:MM)"
+            },
+            "gender": {
+              "type": "integer",
+              "enum": [
+                0,
+                1
+              ],
+              "description": "1 for male, 0 for female"
+            },
+            "school": {
+              "type": "string",
+              "enum": [
+                "standard",
+                "kham_thien",
+                "nam_phai",
+                "trung_chau",
+                "luong_phai",
+                "bac_phai",
+                "hybrid"
+              ],
+              "description": "Ziwei calculation school."
+            },
+            "astrolabe_type": {
+              "type": "string",
+              "enum": [
+                "thien_ban",
+                "dia_ban",
+                "nhan_ban"
+              ],
+              "description": "Astrolabe layer (thien_ban, dia_ban, nhan_ban)."
+            },
+            "cuc_override": {
+              "type": "integer",
+              "enum": [
+                2,
+                3,
+                4,
+                5,
+                6
+              ],
+              "description": "Optional Cuc number override."
+            }
+          },
+          "required": [
+            "datetime_str"
+          ]
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "compare_canonical_astrolabe_ground_truth",
+        "description": "Parse 3-table 'Dùng cho AI - Nhấn sao chép' Markdown export from Canonical-Astrolabe-Engine and perform 7-step Zero-Diff comparison against internal engine.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "markdown_text": {
+              "type": "string",
+              "description": "Full Markdown 3-table string copied from Canonical-Astrolabe-Engine or local file path."
+            },
+            "datetime_str": {
+              "type": "string",
+              "description": "Optional birth datetime override (DD/MM/YYYY HH:MM)."
+            },
+            "gender": {
+              "type": "integer",
+              "enum": [
+                0,
+                1
+              ],
+              "description": "1 for male, 0 for female."
+            },
+            "school": {
+              "type": "string",
+              "description": "School configuration flag (e.g. 'standard', 'kham_thien')."
+            },
+            "cuc_override": {
+              "type": "integer",
+              "description": "Optional Cuc number override."
+            }
+          },
+          "required": [
+            "markdown_text"
+          ]
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "run_ziwei_stress_test",
+        "description": "Execute multi-century (1900-2100) high-throughput stress testing pipeline on random vectors and complex edge cases, benchmarking speed (<2ms/chart) and 0-crash reliability.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "num_vectors": {
+              "type": "integer",
+              "description": "Number of stress test vectors (default 1000)."
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "generate_ziwei_test_vectors",
+        "description": "Generate deterministic multi-century random vectors (1900-2100) and 6 classes of complex edge cases (leap months, solar term rollover, Zi hour splits, pillar changes).",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "count": {
+              "type": "integer",
+              "description": "Number of random vectors to sample (default 100)."
+            },
+            "include_edge_cases": {
+              "type": "boolean",
+              "description": "Whether to include standard edge-case synthesis set (default true)."
+            },
+            "seed": {
+              "type": "integer",
+              "description": "Deterministic random seed (default 42)."
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "get_annual_forecast",
+        "description": "Calculate 12-month multi-school annual forecast (Lục Hào 6 hào, Tử Bình Lưu Niên, Tử Vi Lưu Thái Tuế & Lưu Tứ Hóa, Kỳ Môn Niên Cục)",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "year": {
+              "type": "integer",
+              "description": "Target year (e.g. 2026)"
+            },
+            "question": {
+              "type": "string",
+              "description": "Query or topic of interest"
+            },
+            "gender": {
+              "type": "integer",
+              "enum": [
+                0,
+                1
+              ],
+              "description": "1 for male, 0 for female"
+            }
+          },
+          "required": [
+            "year"
+          ]
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "get_dan_dao_health_diagnosis",
+        "description": "Diagnose 5 Zang-Fu organs balance, meridian excesses/deficiencies and Daoist Inner Alchemy breathing/cultivation guidance",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "datetime_str": {
+              "type": "string",
+              "description": "Birth datetime (DD/MM/YYYY HH:MM)"
+            },
+            "gender": {
+              "type": "integer",
+              "enum": [
+                0,
+                1
+              ],
+              "description": "1 for male, 0 for female"
+            }
+          },
+          "required": [
+            "datetime_str"
+          ]
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "get_feng_shui_period9",
+        "description": "Calculate Xuan Kong Flying Stars Period 9 (2024-2043) and Eight Mansions (Bát Trạch) Cung Phi for 24 Mountains",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "facing_mountain": {
+              "type": "string",
+              "description": "Facing mountain among 24 mountains (e.g. 'Tý', 'Ngọ', 'Càn', 'Tốn')"
+            },
+            "birth_year": {
+              "type": "integer",
+              "description": "Birth year for Eight Mansions Cung Phi calculation"
+            },
+            "gender": {
+              "type": "integer",
+              "enum": [
+                0,
+                1
+              ],
+              "description": "1 for male, 0 for female"
+            }
+          },
+          "required": [
+            "facing_mountain"
+          ]
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "get_master_synthesis",
+        "description": "Execute comprehensive Master Synthesis Report cross-referencing all 6 Eastern Metaphysics engines.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "datetime_str": {
+              "type": "string",
+              "description": "DateTime string in DD/MM/YYYY HH:MM format, or empty for NTP atomic now."
+            },
+            "question": {
+              "type": "string",
+              "description": "Query or strategic decision matter."
+            },
+            "gender": {
+              "type": "integer",
+              "enum": [
+                0,
+                1
+              ],
+              "description": "1 for male, 0 for female"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "memory_add_person",
+        "description": "Thêm hồ sơ cá nhân vào tầng nhớ L5, tự động tính toán vân tay cấu trúc Bát Tự & Tử Vi.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Họ tên hoặc danh xưng"
+            },
+            "birth_dt": {
+              "type": "string",
+              "description": "Ngày giờ sinh (DD/MM/YYYY HH:MM)"
+            },
+            "gender": {
+              "type": "integer",
+              "enum": [
+                0,
+                1
+              ],
+              "description": "1: Nam, 0: Nữ"
+            },
+            "relationship": {
+              "type": "string",
+              "description": "Quan hệ với người dùng (bạn thân, em trai, khách...)"
+            },
+            "notes": {
+              "type": "string",
+              "description": "Ghi chú đặc điểm cá nhân"
+            },
+            "preferred_school": {
+              "type": "string",
+              "description": "Trường phái Tử Vi tương thích (standard, trung_chau, nam_phai...)"
+            }
+          },
+          "required": [
+            "name"
+          ]
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "memory_query_federated",
+        "description": "Truy vấn hợp nhất đa tầng: Cổ thư (L1), Quy tắc cao nhân (L2), Mẫu hình tinh luyện (L4), Hồ sơ cá nhân (L5).",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "question": {
+              "type": "string",
+              "description": "Chủ đề / Vấn sự tra cứu"
+            },
+            "discipline": {
+              "type": "string",
+              "description": "Phân hệ thuật số"
+            },
+            "person_id": {
+              "type": "integer",
+              "description": "ID hồ sơ cá nhân"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "memory_get_person_journey",
+        "description": "Xem toàn bộ hành trình chiêm nghiệm của một cá nhân và các người có mệnh lý tương đồng (Resonance).",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "person_id": {
+              "type": "integer",
+              "description": "ID hồ sơ cá nhân"
+            }
+          },
+          "required": [
+            "person_id"
+          ]
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "memory_get_system_stats",
+        "description": "Xem thống kê tổng quan toàn bộ kho bộ nhớ, tỷ lệ kiểm chứng thực tế và số lượng mẫu hình.",
+        "parameters": {
+          "type": "object",
+          "properties": {}
+        }
+      }
+    }
+  ],
+  "anthropic_tools": [
+    {
+      "name": "metaphysics_agent_query",
+      "description": "Fetch high-density structured ancient Eastern metaphysics data across 6 systems: I Ching, Bazi, Tu Vi (Universal 110+ stars), Ha Lac, Qi Men Dun Jia, and Tung Shing Almanac.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "datetime_str": {
+            "type": "string",
+            "description": "DateTime string (DD/MM/YYYY HH:MM) or empty for current time."
+          },
+          "question": {
+            "type": "string",
+            "description": "Target question or decision topic."
+          },
+          "gender": {
+            "type": "integer",
+            "enum": [
+              0,
+              1
+            ],
+            "description": "1 for male, 0 for female."
+          },
+          "systems": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "school": {
+            "type": "string",
+            "description": "Ziwei school (standard, kham_thien, nam_phai, trung_chau, luong_phai, bac_phai, hybrid)."
+          },
+          "astrolabe_type": {
+            "type": "string",
+            "description": "thien_ban, dia_ban, or nhan_ban."
+          },
+          "cuc_override": {
+            "type": "integer",
+            "description": "Forced Cuc number (2, 3, 4, 5, 6)."
+          }
+        },
+        "required": [
+          "question"
+        ]
+      }
+    },
+    {
+      "name": "calculate_universal_tu_vi",
+      "description": "Calculate Universal Multi-School Zi Wei Dou Shu Chart with 110+ stars, 12 Palaces Flying Stars matrix, Self/Inward Transformations, Phuong Vien map, and Kham Thien routes.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "datetime_str": {
+            "type": "string",
+            "description": "Birth datetime (DD/MM/YYYY HH:MM)"
+          },
+          "gender": {
+            "type": "integer",
+            "enum": [
+              0,
+              1
+            ],
+            "description": "1 for male, 0 for female"
+          },
+          "school": {
+            "type": "string",
+            "description": "standard, kham_thien, nam_phai, trung_chau, luong_phai, bac_phai, hybrid"
+          },
+          "astrolabe_type": {
+            "type": "string",
+            "description": "thien_ban, dia_ban, nhan_ban"
+          },
+          "cuc_override": {
+            "type": "integer",
+            "description": "2, 3, 4, 5, 6"
+          }
+        },
+        "required": [
+          "datetime_str"
+        ]
+      }
+    },
+    {
+      "name": "compare_canonical_astrolabe_ground_truth",
+      "description": "Parse 3-table 'Dùng cho AI - Nhấn sao chép' Markdown export from Canonical-Astrolabe-Engine and perform 7-step Zero-Diff comparison against internal engine.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "markdown_text": {
+            "type": "string",
+            "description": "Full Markdown 3-table string or file path."
+          },
+          "datetime_str": {
+            "type": "string",
+            "description": "Optional birth datetime (DD/MM/YYYY HH:MM)."
+          },
+          "gender": {
+            "type": "integer",
+            "enum": [
+              0,
+              1
+            ],
+            "description": "1 for male, 0 for female."
+          },
+          "school": {
+            "type": "string",
+            "description": "School configuration."
+          },
+          "cuc_override": {
+            "type": "integer",
+            "description": "Cuc override."
+          }
+        },
+        "required": [
+          "markdown_text"
+        ]
+      }
+    },
+    {
+      "name": "run_ziwei_stress_test",
+      "description": "Run multi-century high-throughput stress testing benchmark (<2ms/chart, 0-crash).",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "num_vectors": {
+            "type": "integer",
+            "description": "Number of vectors (default 1000)."
+          }
+        }
+      }
+    },
+    {
+      "name": "generate_ziwei_test_vectors",
+      "description": "Generate deterministic multi-century random vectors (1900-2100) and edge cases.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "description": "Number of random vectors (default 100)."
+          },
+          "include_edge_cases": {
+            "type": "boolean",
+            "description": "Include edge cases (default true)."
+          },
+          "seed": {
+            "type": "integer",
+            "description": "Random seed."
+          }
+        }
+      }
+    },
+    {
+      "name": "get_annual_forecast",
+      "description": "12-month multi-school annual forecast.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "year": {
+            "type": "integer",
+            "description": "Target year (e.g. 2026)"
+          },
+          "question": {
+            "type": "string",
+            "description": "Query or topic"
+          },
+          "gender": {
+            "type": "integer",
+            "enum": [
+              0,
+              1
+            ]
+          }
+        },
+        "required": [
+          "year"
+        ]
+      }
+    },
+    {
+      "name": "get_dan_dao_health_diagnosis",
+      "description": "Daoist 5 Zang-Fu health diagnosis and inner alchemy guidance.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "datetime_str": {
+            "type": "string",
+            "description": "Birth datetime (DD/MM/YYYY HH:MM)"
+          },
+          "gender": {
+            "type": "integer",
+            "enum": [
+              0,
+              1
+            ]
+          }
+        },
+        "required": [
+          "datetime_str"
+        ]
+      }
+    },
+    {
+      "name": "get_feng_shui_period9",
+      "description": "Xuan Kong Flying Stars Period 9 (2024-2043) and Eight Mansions calculation.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "facing_mountain": {
+            "type": "string",
+            "description": "Facing mountain among 24 mountains"
+          },
+          "birth_year": {
+            "type": "integer",
+            "description": "Birth year for Eight Mansions"
+          },
+          "gender": {
+            "type": "integer",
+            "enum": [
+              0,
+              1
+            ]
+          }
+        },
+        "required": [
+          "facing_mountain"
+        ]
+      }
+    },
+    {
+      "name": "get_master_synthesis",
+      "description": "Master synthesis across all 6 Eastern metaphysics engines.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "datetime_str": {
+            "type": "string",
+            "description": "DateTime string in DD/MM/YYYY HH:MM"
+          },
+          "question": {
+            "type": "string",
+            "description": "Target question"
+          },
+          "gender": {
+            "type": "integer",
+            "enum": [
+              0,
+              1
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "memory_add_person",
+      "description": "Thêm hồ sơ cá nhân vào tầng nhớ L5, tự động tính toán vân tay cấu trúc Bát Tự & Tử Vi.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Họ tên hoặc danh xưng"
+          },
+          "birth_dt": {
+            "type": "string",
+            "description": "Ngày giờ sinh (DD/MM/YYYY HH:MM)"
+          },
+          "gender": {
+            "type": "integer",
+            "enum": [
+              0,
+              1
+            ],
+            "description": "1: Nam, 0: Nữ"
+          },
+          "relationship": {
+            "type": "string",
+            "description": "Quan hệ với người dùng (bạn thân, em trai, khách...)"
+          },
+          "notes": {
+            "type": "string",
+            "description": "Ghi chú đặc điểm cá nhân"
+          },
+          "preferred_school": {
+            "type": "string",
+            "description": "Trường phái Tử Vi tương thích (standard, trung_chau, nam_phai...)"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      }
+    },
+    {
+      "name": "memory_query_federated",
+      "description": "Truy vấn hợp nhất đa tầng: Cổ thư (L1), Quy tắc cao nhân (L2), Mẫu hình tinh luyện (L4), Hồ sơ cá nhân (L5).",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "question": {
+            "type": "string",
+            "description": "Chủ đề / Vấn sự tra cứu"
+          },
+          "discipline": {
+            "type": "string",
+            "description": "Phân hệ thuật số"
+          },
+          "person_id": {
+            "type": "integer",
+            "description": "ID hồ sơ cá nhân"
+          }
+        }
+      }
+    },
+    {
+      "name": "memory_get_person_journey",
+      "description": "Xem toàn bộ hành trình chiêm nghiệm của một cá nhân và các người có mệnh lý tương đồng (Resonance).",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "person_id": {
+            "type": "integer",
+            "description": "ID hồ sơ cá nhân"
+          }
+        },
+        "required": [
+          "person_id"
+        ]
+      }
+    },
+    {
+      "name": "memory_get_system_stats",
+      "description": "Xem thống kê tổng quan toàn bộ kho bộ nhớ, tỷ lệ kiểm chứng thực tế và số lượng mẫu hình.",
+      "input_schema": {
+        "type": "object",
+        "properties": {}
+      }
+    }
+  ]
+}
